@@ -16,8 +16,8 @@ async function openCoach() {
     if (file.encoding !== 'base64' || typeof file.content !== 'string') throw new Error('invalid');
     const target = JSON.parse(atob(file.content));
     if (typeof target.url !== 'string' || !/^https:\/\/[a-z0-9]+(?:-[a-z0-9]+)*\.trycloudflare\.com$/.test(target.url)) throw new Error('invalid');
-    // Solo el marcador literal del juego tiene destino propio.
-    const entry = window.location.hash === '#ingenio' ? '/ingenio.html' : '/';
+    // Solo los marcadores literales de cada producto tienen destino propio (Ingenio y Flirt & Feel).
+    const entry = { '#ingenio': '/ingenio.html', '#flirt': '/flirt.html' }[window.location.hash] ?? '/';
     window.location.replace(target.url + entry);
   } catch {
     status.textContent = 'No hemos podido abrir el coach. Vuelve a intentarlo en un momento.';
