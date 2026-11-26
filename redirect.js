@@ -16,8 +16,9 @@ async function openCoach() {
     if (file.encoding !== 'base64' || typeof file.content !== 'string') throw new Error('invalid');
     const target = JSON.parse(atob(file.content));
     if (typeof target.url !== 'string' || !/^https:\/\/[a-z0-9]+(?:-[a-z0-9]+)*\.trycloudflare\.com$/.test(target.url)) throw new Error('invalid');
-    // No reenviar parámetros ni fragmentos del enlace de entrada.
-    window.location.replace(`${target.url}/`);
+    // Solo el marcador literal del juego tiene destino propio.
+    const entry = window.location.hash === '#ingenio' ? '/ingenio.html' : '/';
+    window.location.replace(target.url + entry);
   } catch {
     status.textContent = 'No hemos podido abrir el coach. Vuelve a intentarlo en un momento.';
     retry.hidden = false;
